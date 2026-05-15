@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 // 1. 데이터 영역
@@ -11,23 +11,10 @@ const GUEST_INFO = {
   content: `어느덧 저희 아이가 태어난 지 일 년이 되었습니다. 
 가족분들과 함께 따뜻한 식사 한 끼 나누며 
 이겸이의 첫 생일을 축하하고 싶습니다.`,
+  mainPhoto: '/assets/baby.jpg' // 메인 사진 경로
 };
 
-const ORIGINAL_PHOTOS = [
-  { id: 1, src: '/assets/baby_1.jpg', alt: '사진 1' },
-  { id: 2, src: '/assets/baby_2.jpg', alt: '사진 2' },
-  { id: 3, src: '/assets/baby_3.jpg', alt: '사진 3' },
-  { id: 4, src: '/assets/baby_4.jpg', alt: '사진 4' },
-  { id: 5, src: '/assets/baby_5.jpg', alt: '사진 5' },
-  { id: 6, src: '/assets/baby_6.jpg', alt: '사진 6' },
-  { id: 7, src: '/assets/baby_7.jpg', alt: '사진 7' },
-  { id: 8, src: '/assets/baby_8.jpg', alt: '사진 8' },
-  { id: 9, src: '/assets/baby_9.jpg', alt: '사진 9' },
-];
-
 function App() {
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-
   // 주소 복사 함수
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(GUEST_INFO.address).then(() => {
@@ -44,15 +31,10 @@ function App() {
         <h1>{GUEST_INFO.title}</h1>
       </TitleSection>
 
-      <CollageSection>
-        <div className="grid-container">
-          {ORIGINAL_PHOTOS.map((photo) => (
-            <div key={photo.id} className="grid-item" onClick={() => setSelectedPhoto(photo.src)}>
-              <img src={process.env.PUBLIC_URL + photo.src} alt={photo.alt} />
-            </div>
-          ))}
-        </div>
-      </CollageSection>
+      {/* 사진 1장 메인 섹션 */}
+      <MainImageSection>
+        <img src={process.env.PUBLIC_URL + GUEST_INFO.mainPhoto} alt="이겸이 사진" />
+      </MainImageSection>
 
       <InfoSection>
         <p className="content">{GUEST_INFO.content}</p>
@@ -77,15 +59,6 @@ function App() {
           </div>
         </div>
       </InfoSection>
-
-      {selectedPhoto && (
-        <ModalOverlay onClick={() => setSelectedPhoto(null)}>
-          <ModalContent>
-            <img src={process.env.PUBLIC_URL + selectedPhoto} alt="확대 사진" />
-            <CloseButton>×</CloseButton>
-          </ModalContent>
-        </ModalOverlay>
-      )}
     </Container>
   );
 }
@@ -109,28 +82,25 @@ const TitleSection = styled.section`
   p { font-size: 0.85rem; letter-spacing: 3px; }
 `;
 
-const CollageSection = styled.section`
+const MainImageSection = styled.section`
   padding: 0 25px;
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-    background-color: #fff;
-    padding: 4px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(141, 110, 99, 0.1);
-    overflow: hidden;
-  }
-  .grid-item {
-    cursor: pointer;
-    aspect-ratio: 1/1;
-    img { width: 100%; height: 100%; object-fit: cover; }
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(141, 110, 99, 0.15);
   }
 `;
 
 const InfoSection = styled.section`
   padding: 40px 25px;
-  .content { line-height: 1.8; color: #6d4c41; margin-bottom: 40px; white-space: pre-wrap; }
+  .content { 
+    line-height: 1.8; 
+    color: #6d4c41; 
+    margin-bottom: 40px; 
+    white-space: pre-wrap; 
+    font-size: 1.05rem;
+  }
   .details { 
     background: #fff; 
     padding: 30px 20px; 
@@ -147,7 +117,6 @@ const InfoSection = styled.section`
   }
 `;
 
-// 주소와 복사 버튼을 감싸는 스타일
 const AddressWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -170,31 +139,6 @@ const CopyButton = styled.button`
   color: #666;
   cursor: pointer;
   &:active { background-color: #eee; }
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-  position: relative;
-  max-width: 90%;
-  img { width: 100%; border-radius: 10px; }
-`;
-
-const CloseButton = styled.div`
-  position: absolute;
-  top: -50px; right: 0;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
 `;
 
 export default App;
