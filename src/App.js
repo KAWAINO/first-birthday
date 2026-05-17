@@ -8,9 +8,11 @@ const GUEST_INFO = {
   location: "롯데시티 호텔(2층) 씨카페",
   address: "서울특별시 마포구 마포대로 109",
   tel: "02-6009-1090 ~ 1",
+  noti1: "호텔측 지하주차장 B3 또는 B4",
+  noti2: "상가 주차장과 B5 주차장은 주차금액 지원 불가",
   content: `어느덧 저희 아이가 태어난 지 일 년이 되었습니다. 
 가족분들과 함께 따뜻한 식사 한 끼 나누며 
-이겸이의 첫 생일을 축하하고 싶습니다.`,
+이겸이의 첫 생일을 축하해 주시면 감사하겠습니다.`,
   mainPhoto: '/assets/baby.jpg' // 메인 사진 경로
 };
 
@@ -52,6 +54,15 @@ function App() {
               <CopyButton onClick={handleCopyAddress}>복사</CopyButton>
             </AddressWrapper>
           </div>
+
+          {/* 주차 강조 섹션 */}
+          <ParkingItem>
+            <strong>⚠️ 주차 안내 (필독)</strong>
+            <span className="parking-main">{GUEST_INFO.noti1}</span>
+            <div className="parking-warning">
+              <span>{GUEST_INFO.noti2}</span>
+            </div>
+          </ParkingItem>
 
           <div className="item">
             <strong>씨카페 연락처</strong>
@@ -113,6 +124,46 @@ const InfoSection = styled.section`
       &:last-child { margin-bottom: 0; }
       strong { color: #a1887f; font-size: 0.85rem; margin-bottom: 8px; }
       span { color: #333; font-size: 1.1rem; font-weight: 500; }
+    }
+  }
+`;
+
+// 주차 전용 강조 스타일 컴포넌트
+const ParkingItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  background-color: #fff5f5; /* 눈에 띄는 연한 붉은 배경 */
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #ffe3e3;
+
+  strong { 
+    color: #e53935 !important; /* 강렬한 경고용 빨간색 */
+    font-size: 0.9rem !important; 
+    margin-bottom: 8px; 
+    font-weight: 700;
+  }
+  
+  .parking-main {
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .parking-warning {
+    margin-top: 8px;
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 6px;
+    border-left: 3px solid #e53935;
+    
+    span {
+      color: #d32f2f !important; /* 지원 불가 메시지 강조 */
+      font-size: 0.85rem !important;
+      font-weight: 500;
+      line-height: 1.4;
+      display: block;
     }
   }
 `;
