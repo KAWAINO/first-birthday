@@ -57,7 +57,7 @@ function App() {
 
           {/* 주차 강조 섹션 */}
           <ParkingItem>
-            <strong>⚠️ 주차 안내 (필독)</strong>
+            <strong>⚠️ 주차 안내</strong>
             <span className="parking-main">{GUEST_INFO.noti1}</span>
             <div className="parking-warning">
               <span>{GUEST_INFO.noti2}</span>
